@@ -29,10 +29,10 @@ bool ModuleMesh::Init()
 
 bool ModuleMesh::Start()
 {
-	float data[] = {
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f
+	float vertices[] = {
+		-0.8f, -0.8f, 0.0f,
+		0.8f, -0.8f, 0.0f,
+		0.0f, 0.8f, 0.0f
 	};
 
 	modelMatrix = math::float4x4::FromTRS(math::float3(0.0f, 0.0f, -4.0f), math::float3x3::RotateY(math::pi / 4.0f), math::float3(1.0f, 1.0f, 1.0f));
@@ -48,7 +48,7 @@ bool ModuleMesh::Start()
 
 	glGenBuffers(1, &vertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;

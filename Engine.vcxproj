@@ -155,6 +155,7 @@
     <ClInclude Include="ModuleMesh.h" />
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
+    <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +205,7 @@
     <ClCompile Include="ModuleMesh.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
+    <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +217,9 @@
     <None Include="mathlib\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
     <None Include="mathlib\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="mathlib\Math\Matrix.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Game\Assets\lenna.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

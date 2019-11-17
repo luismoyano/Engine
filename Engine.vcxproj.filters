@@ -124,6 +124,7 @@
     </ClCompile>
     <ClCompile Include="ModuleMesh.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
+    <ClCompile Include="ModuleTextures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -339,6 +340,7 @@
     </ClInclude>
     <ClInclude Include="ModuleMesh.h" />
     <ClInclude Include="ModuleProgram.h" />
+    <ClInclude Include="ModuleTextures.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -349,6 +351,9 @@
     </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{a2357889-7b87-497e-bf18-fb90d144b6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{c0bcf886-6c85-4947-87d8-cbf01008584f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,5 +381,10 @@
     <None Include="Game\shaders\vertex_basic.shader">
       <Filter>shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Game\Assets\lenna.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -24,7 +24,5 @@ private:
 	float4x4 projectionMatrix;
 
 	Frustum frustum;
-
-	float data[];
 };
 

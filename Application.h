@@ -7,7 +7,7 @@
 
 class ModuleRender;
 class ModuleWindow;
-//class ModuleTextures;
+class ModuleTextures;
 class ModuleInput;
 class ModuleEditor;
 class ModuleMesh;
@@ -31,6 +31,7 @@ public:
 	ModuleEditor* editor = nullptr;
 	ModuleMesh* mesh = nullptr;
 	ModuleProgram* program = nullptr;
+	ModuleTextures* textures = nullptr;
 
 	void requestBrowser(const char* url);
 
