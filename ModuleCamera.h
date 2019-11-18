@@ -21,7 +21,7 @@ public:
 	bool CleanUp();
 
 	void SetFOV(float, float);
-	void SetAspectRatio();
+	void SetAspectRatio(float);
 	void SetPlaneDistances(float, float);
 	void SetPosition(float, float, float);
 	void Orientation();

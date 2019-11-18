@@ -18,7 +18,7 @@ bool ModuleCamera::Init()
 	frustum.front = -float3::unitZ;
 	frustum.up = float3::unitY;
 
-	SetPlaneDistances(0.1f, 50.0f);
+	SetPlaneDistances(1.0f, 2000.0f);
 	SetFOV(0.15f, 0.45f);
 
 	viewMatrix = frustum.ViewMatrix();
@@ -60,9 +60,9 @@ void ModuleCamera::SetFOV(float v, float h)
 	frustum.horizontalFov = h;
 }
 
-void ModuleCamera::SetAspectRatio()
+void ModuleCamera::SetAspectRatio(float h)
 {
-
+	frustum.horizontalFov = h;
 }
 
 void ModuleCamera::SetPlaneDistances(float nearPlane, float farPlane)
@@ -74,10 +74,6 @@ void ModuleCamera::SetPlaneDistances(float nearPlane, float farPlane)
 void ModuleCamera::SetPosition(float x, float y, float z)
 {
 	frustum.pos = float3(x, y, z);
-}
-
-void ModuleCamera::Orientation()
-{
 }
 
 void ModuleCamera::LookAt(float3 target, float3 eye, float3 up)
