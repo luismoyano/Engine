@@ -150,6 +150,7 @@
     <ClInclude Include="mathlib\Math\TransformOps.h" />
     <ClInclude Include="mathlib\Time\Clock.h" />
     <ClInclude Include="Module.h" />
+    <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleMesh.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="mathlib\Math\SSEMath.cpp" />
     <ClCompile Include="mathlib\Math\TransformOps.cpp" />
     <ClCompile Include="mathlib\Time\Clock.cpp" />
+    <ClCompile Include="ModuleCamera.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleMesh.cpp" />

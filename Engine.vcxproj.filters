@@ -125,6 +125,7 @@
     <ClCompile Include="ModuleMesh.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
+    <ClCompile Include="ModuleCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -341,6 +342,7 @@
     <ClInclude Include="ModuleMesh.h" />
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleTextures.h" />
+    <ClInclude Include="ModuleCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">

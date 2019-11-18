@@ -12,6 +12,7 @@ class ModuleInput;
 class ModuleEditor;
 class ModuleMesh;
 class ModuleProgram;
+class ModuleCamera;
 
 class Application
 {
@@ -32,6 +33,7 @@ public:
 	ModuleMesh* mesh = nullptr;
 	ModuleProgram* program = nullptr;
 	ModuleTextures* textures = nullptr;
+	ModuleCamera* camera = nullptr;
 
 	void requestBrowser(const char* url);
 

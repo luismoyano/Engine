@@ -7,6 +7,7 @@
 #include "ModuleMesh.h"
 #include "ModuleProgram.h"
 #include "ModuleTextures.h"
+#include "ModuleCamera.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ Application::Application()
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(mesh = new ModuleMesh());
 	modules.push_back(textures = new ModuleTextures());
+	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(renderer = new ModuleRender());
 
 }
