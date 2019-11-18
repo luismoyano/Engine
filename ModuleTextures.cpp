@@ -1,9 +1,9 @@
 #include "ModuleTextures.h"
-#include "IL/il.h"
 #include "SDL.h"
 #include <GL/glew.h>
-
-
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include "IL/ilut.h"
 
 ModuleTextures::ModuleTextures()
 {
@@ -16,6 +16,10 @@ ModuleTextures::~ModuleTextures()
 
 bool ModuleTextures::Init()
 {
+	ilInit();
+	iluInit();
+	ilutInit();
+
 	return true;
 }
 
@@ -31,8 +35,9 @@ bool ModuleTextures::loadTexture(const char * path)
 {
 	bool result = false;
 	
-	ILuint texture;
-	ilGenImages(1, &texture);
+	ILuint tex;
+	ilGenImages(1, &tex);
+	ilBindImage(tex);
 	
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -54,15 +59,11 @@ bool ModuleTextures::loadTexture(const char * path)
 	{
 		LOG("Failed to load texture");
 	}
-	ilDeleteImage(texture);
+
+	ilutRenderer(ILUT_OPENGL);
+	texture = ilutGLBindTexImage();
+
+	ilDeleteImage(tex);
 	
 	return result;
-}
-
-ILuint ModuleTextures::generateTexture()
-{
-	ILuint ImageName;
-	ilGenImages(1, &ImageName);
-
-	return ImageName;
 }

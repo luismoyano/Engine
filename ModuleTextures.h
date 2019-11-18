@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-#include "IL/il.h"
+#include <GL/glew.h>
 
 class ModuleTextures :
 	public Module
@@ -14,12 +14,9 @@ public:
 
 	bool loadTexture(const char*);
 
-	ILuint generateTexture();
+	GLuint texture;
 
 private:
-
 	const char* textureName;
-
-
 };
 
