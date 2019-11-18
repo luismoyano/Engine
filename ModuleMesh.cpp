@@ -41,7 +41,7 @@ bool ModuleMesh::Start()
 	};
 
 	modelMatrix = math::float4x4::FromTRS(math::float3(0.0f, 0.0f, -4.0f), math::float3x3::RotateY(math::pi / 4.0f), math::float3(1.0f, 1.0f, 1.0f));
-	viewMatrix = LookAt(math::float3(0.0f, 0.5f, 0.4f), math::float3(0.0f, 0.0f, 0.0f), math::float3(0.0f, 1.0f, 0.0f));
+	viewMatrix = frustum.ViewMatrix();
 	projectionMatrix = frustum.ProjectionMatrix();	
 	math::float4x4 transform = projectionMatrix * math::float4x4(modelMatrix);
 
