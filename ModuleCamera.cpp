@@ -19,10 +19,12 @@ bool ModuleCamera::Init()
 	frustum.up = float3::unitY;
 
 	SetPlaneDistances(1.0f, 2000.0f);
-	SetFOV(0.15f, 0.45f);
+	SetFOV(0.15f, 0.45f);//Estos numeros están mal probablememte, arreglalos
 
 	viewMatrix = frustum.ViewMatrix();
-	LookAt(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.1f, 0.0f));
+
+	//float3x4::LookAt()
+	//LookAt(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.1f, 0.0f));
 
 	projectionMatrix = frustum.ProjectionMatrix();
 
