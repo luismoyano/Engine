@@ -14,12 +14,12 @@ ModuleCamera::~ModuleCamera()
 bool ModuleCamera::Init()
 {
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3::zero;
+	frustum.pos = float3::unitX;
 	frustum.front = -float3::unitZ;
 	frustum.up = float3::unitY;
 
-	SetPlaneDistances(1.0f, 2000.0f);
-	SetFOV(0.15f, 0.45f);//Estos numeros están mal probablememte, arreglalos
+	SetPlaneDistances(0.1f, 2000.0f);
+	SetFOV(math::pi / 4.0f, 2.f * atanf(tanf((math::pi / 4.0f) * 0.5f) * (SCREEN_WIDTH/SCREEN_HEIGHT)));
 
 	viewMatrix = frustum.ViewMatrix();
 
