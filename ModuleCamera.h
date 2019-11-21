@@ -20,7 +20,7 @@ public:
 	
 	bool CleanUp();
 
-	void SetFOV(float, float);
+	void SetFOV(float);
 	void SetAspectRatio(float);
 	void SetPlaneDistances(float, float);
 	void SetPosition(float, float, float);
@@ -33,5 +33,9 @@ public:
 	float4x4 projectionMatrix;
 
 	Frustum frustum;
+
+private:
+
+	void reloadMatrices();
 };
 

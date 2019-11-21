@@ -126,6 +126,8 @@
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleCamera.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Provider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -343,6 +345,8 @@
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleCamera.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Provider.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">

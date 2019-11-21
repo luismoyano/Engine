@@ -158,6 +158,8 @@
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Provider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -209,6 +211,8 @@
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Provider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\shaders\fragment_basic.shader" />

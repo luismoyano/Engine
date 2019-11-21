@@ -32,7 +32,7 @@ bool ModuleMesh::Start()
 		0.5f, 1.0f //v2 texcoord
 	};
 
-	modelMatrix = math::float4x4::FromTRS(math::float3(0.0f, 0.0f, 0.0f), math::float3x3::RotateY(0.15f), math::float3(1.0f, 1.0f, 1.0f));
+	modelMatrix = math::float4x4::FromTRS(math::float3(0.0f, 0.0f, -10.0f), math::float3x3::RotateY(0.0f), math::float3(1.0f, 1.0f, 1.0f));
 
 
 	glActiveTexture(GL_TEXTURE0);

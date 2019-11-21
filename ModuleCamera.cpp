@@ -19,14 +19,11 @@ bool ModuleCamera::Init()
 	frustum.up = float3::unitY;
 
 	SetPlaneDistances(0.1f, 2000.0f);
-	SetFOV(math::pi / 4.0f, 2.f * atanf(tanf((math::pi / 4.0f) * 0.5f) * (SCREEN_WIDTH/SCREEN_HEIGHT)));
+	SetFOV(math::pi / 4.0f);
 
 	viewMatrix = frustum.ViewMatrix();
 
-	//float3x4::LookAt()
-	//LookAt(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.1f, 0.0f));
-
-	projectionMatrix = frustum.ProjectionMatrix();
+	
 
 	return true;
 }
@@ -56,10 +53,10 @@ bool ModuleCamera::CleanUp()
 	return true;
 }
 
-void ModuleCamera::SetFOV(float v, float h)
+void ModuleCamera::SetFOV(float fov)
 {
-	frustum.verticalFov = v;
-	frustum.horizontalFov = h;
+	frustum.verticalFov = fov;
+	frustum.horizontalFov = 2.f * atanf(fov * 0.5f) * (SCREEN_WIDTH / SCREEN_HEIGHT);
 }
 
 void ModuleCamera::SetAspectRatio(float h)
@@ -83,6 +80,7 @@ void ModuleCamera::LookAt(float3 target, float3 eye, float3 up)
 	math::float3 f(target - eye); f.Normalize();
 	math::float3 s(f.Cross(up)); s.Normalize();
 	math::float3 u(s.Cross(f));
+	
 	viewMatrix[0][0] = s.x; 
 	viewMatrix[0][1] = s.y; 
 	viewMatrix[0][2] = s.z;
@@ -113,4 +111,10 @@ float4x4 ModuleCamera::GetProjectionMatrix()
 float4x4 ModuleCamera::GetViewMatrix()
 {
 	return viewMatrix;
+}
+
+void ModuleCamera::reloadMatrices()
+{
+	projectionMatrix = frustum.ProjectionMatrix();
+	viewMatrix = frustum.ViewMatrix();
 }
