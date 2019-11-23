@@ -24,6 +24,7 @@ public:
 	void SetAspectRatio(float);
 	void SetPlaneDistances(float, float);
 	void SetPosition(float, float, float);
+	void updatePosition();
 	void Orientation();
 	void LookAt(float3, float3, float3);
 	float4x4 GetProjectionMatrix();

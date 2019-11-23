@@ -1,4 +1,7 @@
 #include "ModuleCamera.h"
+#include "Application.h"
+#include "ModuleInput.h"
+#include <SDL.h>
 
 
 
@@ -22,8 +25,6 @@ bool ModuleCamera::Init()
 	SetFOV(math::pi / 4.0f);
 
 	viewMatrix = frustum.ViewMatrix();
-
-	
 
 	return true;
 }
@@ -73,6 +74,40 @@ void ModuleCamera::SetPlaneDistances(float nearPlane, float farPlane)
 void ModuleCamera::SetPosition(float x, float y, float z)
 {
 	frustum.pos = float3(x, y, z);
+}
+
+void ModuleCamera::updatePosition()
+{
+	
+	if (App->input->GetKey(SDL_SCANCODE_Q))
+	{
+		//Move upwards
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_E))
+	{
+		//Move downwards
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W))
+	{
+		//Move forward
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S))
+	{
+		//Move backwards
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A))
+	{
+		//Move Left
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D))
+	{
+		//Move Right
+	}
 }
 
 void ModuleCamera::LookAt(float3 target, float3 eye, float3 up)
