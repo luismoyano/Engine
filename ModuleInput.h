@@ -1,21 +1,52 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "Point.h"
+
+#define NUM_MOUSE_BUTTONS 5
+#define MAX_KEYS 300
+
 
 typedef unsigned __int8 Uint8;
 
-class ModuleInput : public Module
+enum KeyState
 {
+	KEY_IDLE = 0,
+	KEY_DOWN,
+	KEY_REPEAT,
+	KEY_UP
+};
+
+class ModuleInput : public Module {
 public:
-	
+
 	ModuleInput();
 	~ModuleInput();
 
 	bool Init();
 	update_status PreUpdate() override;
-	update_status Update();
+	update_status Update() override;
 	bool CleanUp();
+	// Check key states (includes mouse and joy buttons)
+	KeyState GetKey(int id) const
+	{
+		return keyboard[id];
+	}
+
+	KeyState GetMouseButtonDown(int id) const
+	{
+		return mouse_buttons[id - 1];
+	}
+
+	// Get mouse / axis position
+	const iPoint& GetMouseMotion() const;
+	const iPoint& GetMousePosition() const;
 
 private:
-	const Uint8 *keyboard = NULL;
+	KeyState keyboard[MAX_KEYS];
+	KeyState mouse_buttons[NUM_MOUSE_BUTTONS];
+	iPoint mouse_motion;
+	iPoint mouse;
+
+	void initKeys();
 };

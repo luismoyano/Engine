@@ -6,14 +6,18 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include "Application.h"
+#include "Point.h"
 #include <SDL.h>
 
+
 ModuleInput::ModuleInput()
-{}
+{
+}
 
 // Destructor
 ModuleInput::~ModuleInput()
-{}
+{
+}
 
 // Called before render is available
 bool ModuleInput::Init()
@@ -22,7 +26,9 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_TIMER) < 0)
+	initKeys();
+
+	if (SDL_InitSubSystem(SDL_INIT_TIMER) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -34,6 +40,39 @@ bool ModuleInput::Init()
 update_status ModuleInput::PreUpdate()
 {
 	update_status toBeReturned = UPDATE_CONTINUE;
+
+	mouse_motion = { 0, 0 };
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
+
+	for (int i = 0; i < MAX_KEYS; ++i)
+	{
+		if (keys[i] == 1)
+		{
+			if (keyboard[i] == KEY_IDLE)
+				keyboard[i] = KEY_DOWN;
+			else
+				keyboard[i] = KEY_REPEAT;
+		}
+		else
+		{
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+			{
+				keyboard[i] = KEY_UP;
+			}
+			else
+				keyboard[i] = KEY_IDLE;
+		}
+	}
+
+	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
+	{
+		if (mouse_buttons[i] == KEY_DOWN)
+			mouse_buttons[i] = KEY_REPEAT;
+
+		if (mouse_buttons[i] == KEY_UP)
+			mouse_buttons[i] = KEY_IDLE;
+	}
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) ImGui_ImplSDL2_ProcessEvent(&event);
 
@@ -47,10 +86,35 @@ update_status ModuleInput::PreUpdate()
 	case SDL_WINDOWEVENT:
 		if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 			//App->renderer->WindowResized(event.window.data1, event.window.data2);
+			break;
+
+	case SDL_MOUSEBUTTONDOWN:
+		mouse_buttons[event.button.button - 1] = KEY_DOWN;
+		break;
+
+	case SDL_MOUSEBUTTONUP:
+		mouse_buttons[event.button.button - 1] = KEY_UP;
+		break;
+
+	case SDL_MOUSEMOTION:
+		mouse_motion.x = event.motion.xrel / SCREEN_SIZE;
+		mouse_motion.y = event.motion.yrel / SCREEN_SIZE;
+		mouse.x = event.motion.x / SCREEN_SIZE;
+		mouse.y = event.motion.y / SCREEN_SIZE;
 		break;
 	}
-	//keyboard = SDL_GetKeyboardState(NULL);
+
 	return toBeReturned;
+}
+
+const iPoint& ModuleInput::GetMousePosition() const
+{
+	return mouse;
+}
+
+const iPoint& ModuleInput::GetMouseMotion() const
+{
+	return mouse_motion;
 }
 
 // Called every draw update
@@ -65,4 +129,10 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+void ModuleInput::initKeys()
+{
+	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
+	memset(mouse_buttons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
 }
