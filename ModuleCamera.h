@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include <GL/glew.h>
 
+#define CAM_SPEED 1.0f
+
 class ModuleCamera :
 	public Module
 {
@@ -24,7 +26,7 @@ public:
 	void SetAspectRatio(float);
 	void SetPlaneDistances(float, float);
 	void SetPosition(float, float, float);
-	void updatePosition();
+	void updatePosition(float);
 	void Orientation();
 	void LookAt(float3, float3, float3);
 	float4x4 GetProjectionMatrix();
@@ -38,5 +40,10 @@ public:
 private:
 
 	void reloadMatrices();
+
+	void moveUp(float);
+	void moveDown(float);
+	void moveLeft(float);
+	void moveRight(float);
 };
 

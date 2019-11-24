@@ -41,6 +41,7 @@ update_status ModuleCamera::PreUpdate(float dt)
 
 update_status ModuleCamera::Update(float dt)
 {
+	updatePosition(dt);
 	return UPDATE_CONTINUE;
 }
 
@@ -76,37 +77,25 @@ void ModuleCamera::SetPosition(float x, float y, float z)
 	frustum.pos = float3(x, y, z);
 }
 
-void ModuleCamera::updatePosition()
+void ModuleCamera::updatePosition(float dt)
 {
 	
-	if (App->input->GetKey(SDL_SCANCODE_Q))
-	{
-		//Move upwards
-	}
+	if (App->input->GetKey(SDL_SCANCODE_W)) moveUp(dt);
+
+	if (App->input->GetKey(SDL_SCANCODE_S)) moveDown(dt);
+
+	if (App->input->GetKey(SDL_SCANCODE_A)) moveLeft(dt);
+
+	if (App->input->GetKey(SDL_SCANCODE_D)) moveRight(dt);
 
 	if (App->input->GetKey(SDL_SCANCODE_E))
-	{
-		//Move downwards
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_W))
 	{
 		//Move forward
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_S))
+	if (App->input->GetKey(SDL_SCANCODE_Q))
 	{
 		//Move backwards
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_A))
-	{
-		//Move Left
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D))
-	{
-		//Move Right
 	}
 }
 
@@ -152,4 +141,32 @@ void ModuleCamera::reloadMatrices()
 {
 	projectionMatrix = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
+}
+
+void ModuleCamera::moveUp(float dt)
+{
+	LOG("Move Up");
+	float3 newPosition = frustum.pos;
+	newPosition.y = newPosition.y + (dt * CAM_SPEED);
+	frustum.pos = newPosition;
+}
+
+void ModuleCamera::moveDown(float dt)
+{
+	LOG("Move Down");
+	float3 newPosition = frustum.pos;
+	newPosition.y = newPosition.y - (dt * CAM_SPEED);
+	frustum.pos = newPosition;
+}
+
+void ModuleCamera::moveLeft(float dt)
+{
+	LOG("Move Left");
+	frustum.pos -= frustum.WorldRight().ScaledToLength(dt * CAM_SPEED);
+}
+
+void ModuleCamera::moveRight(float dt)
+{
+	LOG("Move Right");
+	frustum.pos += frustum.WorldRight().ScaledToLength(dt * CAM_SPEED);
 }
