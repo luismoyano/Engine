@@ -34,17 +34,17 @@ bool ModuleCamera::Start()
 	return true;
 }
 
-update_status ModuleCamera::PreUpdate()
+update_status ModuleCamera::PreUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleCamera::Update()
+update_status ModuleCamera::Update(float dt)
 {
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleCamera::PostUpdate()
+update_status ModuleCamera::PostUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
 }

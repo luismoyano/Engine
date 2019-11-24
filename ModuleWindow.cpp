@@ -53,7 +53,7 @@ bool ModuleWindow::Init()
 	return ret;
 }
 
-update_status ModuleWindow::PreUpdate()
+update_status ModuleWindow::PreUpdate(float dt)
 {
 	screen_surface = *SDL_GetWindowSurface(window);
 
@@ -65,13 +65,13 @@ update_status ModuleWindow::PreUpdate()
 }
 
 // Called every draw update
-update_status ModuleWindow::Update()
+update_status ModuleWindow::Update(float dt)
 {
 
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleWindow::PostUpdate()
+update_status ModuleWindow::PostUpdate(float dt)
 {
 	previous_surface = screen_surface;
 	return UPDATE_CONTINUE;

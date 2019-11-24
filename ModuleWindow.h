@@ -18,9 +18,9 @@ public:
 	// Called before quitting
 	bool Init();
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate(float) override;
+	update_status Update(float) override;
+	update_status PostUpdate(float) override;
 
 	// Called before quitting
 	bool CleanUp();

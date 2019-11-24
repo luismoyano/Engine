@@ -9,9 +9,9 @@ public:
 
 	bool Init();
 	bool Start();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate(float) override;
+	update_status Update(float) override;
+	update_status PostUpdate(float) override;
 	bool CleanUp();
 	const char* loadShader(const char*);
 	

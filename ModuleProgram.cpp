@@ -47,18 +47,18 @@ bool ModuleProgram::Start()
 	return true;
 }
 
-update_status ModuleProgram::PreUpdate()
+update_status ModuleProgram::PreUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleProgram::Update()
+update_status ModuleProgram::Update(float dt)
 {
 	return UPDATE_CONTINUE;
 
 }
 
-update_status ModuleProgram::PostUpdate()
+update_status ModuleProgram::PostUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
 

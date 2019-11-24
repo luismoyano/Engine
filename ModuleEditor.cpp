@@ -46,7 +46,7 @@ bool ModuleEditor::Init()
 	return bOk;
 }
 
-update_status ModuleEditor::PreUpdate()
+update_status ModuleEditor::PreUpdate(float dt)
 {
 	//Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -58,7 +58,7 @@ update_status ModuleEditor::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::Update()
+update_status ModuleEditor::Update(float dt)
 {
 	drawLogWindow();
 	drawMenu();
@@ -67,7 +67,7 @@ update_status ModuleEditor::Update()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::PostUpdate()
+update_status ModuleEditor::PostUpdate(float dt)
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

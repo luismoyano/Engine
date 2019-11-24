@@ -8,6 +8,7 @@
 #include "ModuleProgram.h"
 #include "ModuleTextures.h"
 #include "ModuleCamera.h"
+#include <SDL.h>
 
 using namespace std;
 
@@ -36,6 +37,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	frameStartTimeStamp = SDL_GetTicks();
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
@@ -48,7 +50,6 @@ bool Application::Init()
 		ret = (*it)->Start();
 		if (!ret) LOG(SDL_GetError());
 	}
-
 	return ret;
 }
 
@@ -56,14 +57,14 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PreUpdate();
+	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+		ret = (*it)->PreUpdate(getDeltaTimeInSecs());
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->Update();
+		ret = (*it)->Update(getDeltaTimeInSecs());
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PostUpdate();
+	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+		ret = (*it)->PostUpdate(getDeltaTimeInSecs());
 
 	return ret;
 }
@@ -82,4 +83,9 @@ bool Application::CleanUp()
 void Application::requestBrowser(const char * url)
 {
 	ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+}
+
+float Application::getDeltaTimeInSecs()
+{
+	return (SDL_GetTicks() - frameStartTimeStamp) / 1000.0f;
 }

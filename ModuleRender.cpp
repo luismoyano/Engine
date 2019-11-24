@@ -52,14 +52,14 @@ bool ModuleRender::Init()
 	return true;
 }
 
-update_status ModuleRender::PreUpdate()
+update_status ModuleRender::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
 }
 
 // Called every draw update
-update_status ModuleRender::Update()
+update_status ModuleRender::Update(float dt)
 {
 	glLineWidth(1.0f);
 	float d = 200.0f;
@@ -76,7 +76,7 @@ update_status ModuleRender::Update()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleRender::PostUpdate()
+update_status ModuleRender::PostUpdate(float dt)
 {
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;

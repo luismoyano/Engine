@@ -24,9 +24,10 @@ public:
 	~ModuleInput();
 
 	bool Init();
-	update_status PreUpdate() override;
-	update_status Update() override;
+	update_status PreUpdate(float) override;
+	update_status Update(float) override;
 	bool CleanUp();
+	
 	// Check key states (includes mouse and joy buttons)
 	KeyState GetKey(int id) const
 	{

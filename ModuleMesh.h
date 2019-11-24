@@ -12,7 +12,7 @@ public:
 
 	bool Init();
 	bool Start();
-	update_status Update();
+	update_status Update(float) override;
 
 private:
 	float4x4 modelMatrix;

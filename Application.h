@@ -40,7 +40,9 @@ public:
 private:
 
 	std::list<Module*> modules;
+	float frameStartTimeStamp;
 
+	float getDeltaTimeInSecs();
 };
 
 extern Application* App;

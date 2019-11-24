@@ -37,7 +37,7 @@ bool ModuleInput::Init()
 	return ret;
 }
 
-update_status ModuleInput::PreUpdate()
+update_status ModuleInput::PreUpdate(float dt)
 {
 	update_status toBeReturned = UPDATE_CONTINUE;
 
@@ -107,18 +107,8 @@ update_status ModuleInput::PreUpdate()
 	return toBeReturned;
 }
 
-const iPoint& ModuleInput::GetMousePosition() const
-{
-	return mouse;
-}
-
-const iPoint& ModuleInput::GetMouseMotion() const
-{
-	return mouse_motion;
-}
-
 // Called every draw update
-update_status ModuleInput::Update()
+update_status ModuleInput::Update(float dt)
 {
 	return UPDATE_CONTINUE;
 }
@@ -136,3 +126,14 @@ void ModuleInput::initKeys()
 	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
 	memset(mouse_buttons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
 }
+
+const iPoint& ModuleInput::GetMousePosition() const
+{
+	return mouse;
+}
+
+const iPoint& ModuleInput::GetMouseMotion() const
+{
+	return mouse_motion;
+}
+
