@@ -36,7 +36,7 @@ public:
 	void SetPlaneDistances(float, float);
 	void SetPosition(float, float, float);
 	void updatePosition(float);
-	void updateRotation();
+	void updateRotation(float);
 	void updateOrientation();
 	void updateNavModes();
 	void LookAt(float3, float3, float3);
@@ -62,9 +62,9 @@ private:
 	void moveForward(float, float speed = 0.0f);
 	void moveBackwards(float, float speed = 0.0f);
 
-	void pitch(float);
-	void yaw(float);
-	void orbitX(float);
-	void orbitY(float);
+	void pitch(float, float);
+	void yaw(float, float);
+	void orbitX(float, float);
+	void orbitY(float, float);
 };
 

@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "GL/glew.h"
 #include <SDL.h>
+#include "Point.h"
 
 
 
@@ -38,6 +39,7 @@ update_status ModuleCamera::PreUpdate(float dt)
 {
 	updateNavModes();
 	updatePosition(dt);
+	updateRotation(dt);
 
 	return UPDATE_CONTINUE;
 }
@@ -96,6 +98,15 @@ void ModuleCamera::updatePosition(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_Q) || App->input->getWheelSpeed() < 0.0f) moveBackwards(dt, App->input->getWheelSpeed());
 	
 	reloadMatrices();
+}
+
+void ModuleCamera::updateRotation(float dt)
+{
+	if (!navigationMode == FREE) return;
+
+	fPoint mouseMotion = App->input->GetMouseMotion();
+	if (mouseMotion.x > 2.0f) yaw(mouseMotion.x, dt);
+	if (mouseMotion.y > 2.0f) pitch(mouseMotion.x, dt);
 }
 
 void ModuleCamera::updateNavModes()
@@ -178,4 +189,26 @@ void ModuleCamera::moveForward(float dt, float extraSpeed)
 void ModuleCamera::moveBackwards(float dt, float extraSpeed)
 {
 	frustum.pos -= frustum.front.ScaledToLength((0.05f + dt) * getCamSpeed() * ((extraSpeed < 0)? math::Abs(extraSpeed) : 1.0f));
+}
+
+void ModuleCamera::pitch(float angle, float dt)
+{
+	float newAngle = abs((dt + 0.005f) * getCamSpeed() * (angle*-1) + asinf(frustum.front.y / frustum.front.Length()));
+	if (newAngle >= math::pi / 2) return;
+	
+	float3x3 rotationMatrix = float3x3::identity;
+	
+	rotationMatrix.SetRotatePart(frustum.WorldRight(), newAngle);
+	frustum.up = rotationMatrix * frustum.up;
+	frustum.front = rotationMatrix * frustum.front;
+
+}
+
+void ModuleCamera::yaw(float angle, float dt)
+{
+	const float newAngle = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	float3x3 rotationMatrix = float3x3::RotateY(newAngle);
+	frustum.up = rotationMatrix * frustum.up;
+	frustum.front = rotationMatrix * frustum.front;
+
 }

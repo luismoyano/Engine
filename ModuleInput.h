@@ -46,13 +46,14 @@ public:
 	}
 
 	// Get mouse / axis position
-	const iPoint& GetMouseMotion() const;
+	const fPoint& GetMouseMotion() const;
 	const iPoint& GetMousePosition() const;
 
 private:
 	KeyState keyboard[MAX_KEYS];
 	KeyState mouse_buttons[NUM_MOUSE_BUTTONS];
-	iPoint mouse_motion;
+	
+	fPoint mouse_motion;
 	iPoint mouse;
 	float mouseWheel = 0.0f;
 
