@@ -7,6 +7,80 @@
 #include "SDL.h"
 #include <GL/glew.h>
 
+
+static void APIENTRY openglCallbackFunction(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) 
+{
+	(void)source; 
+	(void)type; 
+	(void)id;
+	(void)severity; 
+	(void)length; 
+	(void)userParam;
+
+	char src[256];
+	switch (source)
+	{
+	case GL_DEBUG_SOURCE_API:
+		sprintf_s(src, "API");
+		break;
+	case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+		sprintf_s(src, "Window");
+		break;
+	case GL_DEBUG_SOURCE_SHADER_COMPILER:
+		sprintf_s(src, "Shaders");
+		break;
+	case GL_DEBUG_SOURCE_THIRD_PARTY:
+		sprintf_s(src, "Third Party");
+		break;
+	case GL_DEBUG_SOURCE_APPLICATION:
+		sprintf_s(src, "Application");
+		break;
+	case GL_DEBUG_SOURCE_OTHER:
+		sprintf_s(src, "Other");
+		break;
+	}
+
+	char error[256];
+	switch (type)
+	{
+	case GL_DEBUG_TYPE_ERROR:
+		sprintf_s(error, "Error");
+		break;
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		sprintf_s(error, "Deprecation");
+		break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+		sprintf_s(error, "Undefined Behaviour");
+		break;
+	case GL_DEBUG_TYPE_PORTABILITY:
+		sprintf_s(error, "Portability");
+		break;
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		sprintf_s(error, "Performance");
+		break;
+	case GL_DEBUG_TYPE_MARKER:
+		sprintf_s(error, "Marker");
+		break;
+	case GL_DEBUG_TYPE_PUSH_GROUP:
+		sprintf_s(error, "Push Group");
+		break;
+	case GL_DEBUG_TYPE_POP_GROUP:
+		sprintf_s(error, "Pop Group");
+		break;
+	case GL_DEBUG_TYPE_OTHER:
+		sprintf_s(error, "Other");
+		break;
+	}
+
+	char errorMsg[4096];
+	sprintf_s(errorMsg, "%s %s %s", src, error, message);
+
+	LOG("----------------OPEN GL ERROR----------------");
+	LOG(errorMsg);
+	LOG("----------------END OF OPEN GL ERROR----------------");
+
+}
+
 ModuleRender::ModuleRender()
 {
 }
@@ -50,6 +124,11 @@ bool ModuleRender::Init()
 	glEnable(GL_CULL_FACE); 
 	glEnable(GL_TEXTURE_2D); 
 	glViewport(0, 0, App->window->screen_surface.w, App->window->screen_surface.h);
+
+	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageCallback(openglCallbackFunction, nullptr);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true);
 
 	return true;
 }
@@ -99,12 +178,8 @@ void ModuleRender::renderGrid()
 {
 	glUseProgram(App->program->primitiveProgram);
 
-	// CREATES MODEL MATRIX
-	float4x4 model = float4x4::FromTRS(
-		float3(0.0f, 0.0f, 0.0f),
-		float3x3::identity,
-		float3(1.0f, 1.0f, 1.0f)
-	);
+	float4x4 model = float4x4::FromTRS(float3::zero, float3x3::identity, float3::one);
+
 	glUniformMatrix4fv( glGetUniformLocation(App->program->primitiveProgram, "model"), 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "view"), 1, GL_TRUE, &App->camera->viewMatrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "proj"), 1, GL_TRUE, &App->camera->projectionMatrix[0][0]);
