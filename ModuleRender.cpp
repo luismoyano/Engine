@@ -75,10 +75,12 @@ static void APIENTRY openglCallbackFunction(GLenum source, GLenum type, GLuint i
 	char errorMsg[4096];
 	sprintf_s(errorMsg, "%s %s %s", src, error, message);
 
-	LOG("----------------OPEN GL ERROR----------------");
-	LOG(errorMsg);
-	LOG("----------------END OF OPEN GL ERROR----------------");
-
+	if (type != GL_DEBUG_TYPE_OTHER)
+	{
+		LOG("----------------OPEN GL ERROR----------------");
+		LOG(errorMsg);
+		LOG("----------------END OF OPEN GL ERROR----------------");
+	}
 }
 
 ModuleRender::ModuleRender()
@@ -135,7 +137,6 @@ bool ModuleRender::Init()
 
 bool ModuleRender::Start()
 {
-	renderGrid();
 	return true;
 }
 
@@ -197,5 +198,41 @@ void ModuleRender::renderGrid()
 		glVertex3f(d, 0.0f, i);
 	}
 	glEnd();
+
+	glBegin(GL_LINES);
+
+	//x  
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.1f, 0.0f);
+	glVertex3f(1.1f, -0.1f, 0.0f);
+	glVertex3f(1.1f, 0.1f, 0.0f);
+	glVertex3f(1.0f, -0.1f, 0.0f);
+
+	//y
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.05f, 1.25f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.05f, 1.25f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.05f, 0.0f);
+
+	//z
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(0.05f, -0.1f, 1.05f);
+
+	glEnd();
+	glLineWidth(1.0f);
 }
 

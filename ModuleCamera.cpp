@@ -24,8 +24,7 @@ bool ModuleCamera::Init()
 	SetPlaneDistances(0.1f, 2000.0f);
 	SetFOV(math::pi / 4.0f);
 
-	viewMatrix = frustum.ViewMatrix();
-
+	reloadMatrices();
 	return true;
 }
 
