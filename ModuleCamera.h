@@ -39,7 +39,7 @@ public:
 	void updateRotation(float);
 	void updateOrientation();
 	void updateNavModes();
-	void LookAt(float3, float3, float3);
+	void LookAt(float3);
 
 	float4x4 viewMatrix;
 	float4x4 projectionMatrix;
