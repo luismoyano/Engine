@@ -26,6 +26,7 @@ public:
 	bool Init();
 	update_status PreUpdate(float) override;
 	update_status Update(float) override;
+	update_status PostUpdate(float) override;
 	bool CleanUp();
 	
 	// Check key states (includes mouse and joy buttons)
@@ -39,6 +40,11 @@ public:
 		return mouse_buttons[id - 1];
 	}
 
+	float getWheelSpeed()
+	{
+		return mouseWheel;
+	}
+
 	// Get mouse / axis position
 	const iPoint& GetMouseMotion() const;
 	const iPoint& GetMousePosition() const;
@@ -48,6 +54,7 @@ private:
 	KeyState mouse_buttons[NUM_MOUSE_BUTTONS];
 	iPoint mouse_motion;
 	iPoint mouse;
+	float mouseWheel = 0.0f;
 
 	void initKeys();
 };

@@ -4,7 +4,16 @@
 #include "Globals.h"
 #include <GL/glew.h>
 
-#define CAM_SPEED 1.0f
+#define CAM_SPEED 2.5f
+
+enum MovementMode
+{
+	MOVEMENT_ERROR = -1,
+	NONE,
+	FREE,
+	ORBIT,
+
+};
 
 class ModuleCamera :
 	public Module
@@ -27,10 +36,10 @@ public:
 	void SetPlaneDistances(float, float);
 	void SetPosition(float, float, float);
 	void updatePosition(float);
-	void Orientation();
+	void updateRotation();
+	void updateOrientation();
+	void updateNavModes();
 	void LookAt(float3, float3, float3);
-	float4x4 GetProjectionMatrix();
-	float4x4 GetViewMatrix();
 
 	float4x4 viewMatrix;
 	float4x4 projectionMatrix;
@@ -39,13 +48,23 @@ public:
 
 private:
 
+	MovementMode navigationMode = NONE;
+	bool isFastMode = false;
+
 	void reloadMatrices();
+
+	float getCamSpeed();
 
 	void moveUp(float);
 	void moveDown(float);
 	void moveLeft(float);
 	void moveRight(float);
-	void moveForward(float);
-	void moveBackwards(float);
+	void moveForward(float, float speed = 0.0f);
+	void moveBackwards(float, float speed = 0.0f);
+
+	void pitch(float);
+	void yaw(float);
+	void orbitX(float);
+	void orbitY(float);
 };
 

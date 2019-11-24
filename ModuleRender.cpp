@@ -177,13 +177,13 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 
 void ModuleRender::renderGrid()
 {
-	glUseProgram(App->program->primitiveProgram);
-
-	float4x4 model = float4x4::FromTRS(float3::zero, float3x3::identity, float3::one);
-
-	glUniformMatrix4fv( glGetUniformLocation(App->program->primitiveProgram, "model"), 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "view"), 1, GL_TRUE, &App->camera->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "proj"), 1, GL_TRUE, &App->camera->projectionMatrix[0][0]);
+	//glUseProgram(App->program->primitiveProgram);
+	//
+	//float4x4 model = float4x4::FromTRS(float3::zero, float3x3::identity, float3::one);
+	//
+	//glUniformMatrix4fv( glGetUniformLocation(App->program->primitiveProgram, "model"), 1, GL_TRUE, &model[0][0]);
+	//glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "view"), 1, GL_TRUE, &App->camera->viewMatrix[0][0]);
+	//glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "proj"), 1, GL_TRUE, &App->camera->projectionMatrix[0][0]);
 
 	glLineWidth(1.0f);
 	float d = 200.0f;

@@ -1,6 +1,7 @@
 #include "ModuleCamera.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "GL/glew.h"
 #include <SDL.h>
 
 
@@ -35,12 +36,14 @@ bool ModuleCamera::Start()
 
 update_status ModuleCamera::PreUpdate(float dt)
 {
+	updateNavModes();
+	updatePosition(dt);
+
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCamera::Update(float dt)
 {
-	updatePosition(dt);
 	return UPDATE_CONTINUE;
 }
 
@@ -78,6 +81,7 @@ void ModuleCamera::SetPosition(float x, float y, float z)
 
 void ModuleCamera::updatePosition(float dt)
 {
+	if (!navigationMode == FREE) return;
 	
 	if (App->input->GetKey(SDL_SCANCODE_W)) moveUp(dt);
 
@@ -87,11 +91,20 @@ void ModuleCamera::updatePosition(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_D)) moveRight(dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_E)) moveForward(dt);
+	if (App->input->GetKey(SDL_SCANCODE_E) || App->input->getWheelSpeed() > 0.0f) moveForward(dt, App->input->getWheelSpeed());
 
-	if (App->input->GetKey(SDL_SCANCODE_Q)) moveBackwards(dt);
-
+	if (App->input->GetKey(SDL_SCANCODE_Q) || App->input->getWheelSpeed() < 0.0f) moveBackwards(dt, App->input->getWheelSpeed());
+	
 	reloadMatrices();
+}
+
+void ModuleCamera::updateNavModes()
+{
+	isFastMode = App->input->GetKey(SDL_SCANCODE_LSHIFT);
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT)) navigationMode = FREE;
+	else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) && App->input->GetKey(SDL_SCANCODE_LALT)) navigationMode = ORBIT;
+	else navigationMode = NONE;
 }
 
 void ModuleCamera::LookAt(float3 target, float3 eye, float3 up)
@@ -122,58 +135,47 @@ void ModuleCamera::LookAt(float3 target, float3 eye, float3 up)
 	viewMatrix[3][3] = 1.0f;
 }
 
-float4x4 ModuleCamera::GetProjectionMatrix()
-{
-	return projectionMatrix;
-}
-
-float4x4 ModuleCamera::GetViewMatrix()
-{
-	return viewMatrix;
-}
-
 void ModuleCamera::reloadMatrices()
 {
 	projectionMatrix = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
 }
 
+float ModuleCamera::getCamSpeed()
+{
+	return isFastMode? CAM_SPEED * 2.0f : CAM_SPEED;
+}
+
 void ModuleCamera::moveUp(float dt)
 {
-	LOG("Move Up");
 	float3 newPosition = frustum.pos;
-	newPosition.y = newPosition.y + (dt * CAM_SPEED);
+	newPosition.y = newPosition.y + ((0.05f + dt) * getCamSpeed());
 	frustum.pos = newPosition;
 }
 
 void ModuleCamera::moveDown(float dt)
 {
-	LOG("Move Down");
 	float3 newPosition = frustum.pos;
-	newPosition.y = newPosition.y - (dt * CAM_SPEED);
+	newPosition.y = newPosition.y - ((0.05f + dt) * getCamSpeed());
 	frustum.pos = newPosition;
 }
 
 void ModuleCamera::moveLeft(float dt)
 {
-	LOG("Move Left");
-	frustum.pos -= frustum.WorldRight().ScaledToLength(dt * CAM_SPEED);
+	frustum.pos -= frustum.WorldRight().ScaledToLength((0.05f + dt) * getCamSpeed());
 }
 
 void ModuleCamera::moveRight(float dt)
 {
-	LOG("Move Right");
-	frustum.pos += frustum.WorldRight().ScaledToLength(dt * CAM_SPEED);
+	frustum.pos += frustum.WorldRight().ScaledToLength((0.05f + dt) * getCamSpeed());
 }
 
-void ModuleCamera::moveForward(float dt)
+void ModuleCamera::moveForward(float dt, float extraSpeed)
 {
-	LOG("Move Forward");
-	frustum.pos += frustum.front.ScaledToLength(dt * CAM_SPEED);
+	frustum.pos += frustum.front.ScaledToLength((0.05f + dt) * getCamSpeed() * ((extraSpeed > 0) ? math::Abs(extraSpeed) : 1.0f));
 }
 
-void ModuleCamera::moveBackwards(float dt)
+void ModuleCamera::moveBackwards(float dt, float extraSpeed)
 {
-	LOG("Move Backwards");
-	frustum.pos -= frustum.front.ScaledToLength(dt * CAM_SPEED);
+	frustum.pos -= frustum.front.ScaledToLength((0.05f + dt) * getCamSpeed() * ((extraSpeed < 0)? math::Abs(extraSpeed) : 1.0f));
 }

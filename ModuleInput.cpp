@@ -102,6 +102,10 @@ update_status ModuleInput::PreUpdate(float dt)
 		mouse.x = event.motion.x / SCREEN_SIZE;
 		mouse.y = event.motion.y / SCREEN_SIZE;
 		break;
+
+	case SDL_MOUSEWHEEL:
+		mouseWheel = event.wheel.y;
+		break;
 	}
 
 	return toBeReturned;
@@ -110,6 +114,12 @@ update_status ModuleInput::PreUpdate(float dt)
 // Called every draw update
 update_status ModuleInput::Update(float dt)
 {
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleInput::PostUpdate(float dt)
+{
+	mouseWheel = 0.0f;
 	return UPDATE_CONTINUE;
 }
 
