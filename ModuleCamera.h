@@ -37,7 +37,7 @@ public:
 	void SetPosition(float, float, float);
 	void updatePosition(float);
 	void updateRotation(float);
-	void updateOrientation();
+	void updateOrbit(float);
 	void updateNavModes();
 	void LookAt(float3);
 

@@ -40,6 +40,7 @@ update_status ModuleCamera::PreUpdate(float dt)
 	updateNavModes();
 	updatePosition(dt);
 	updateRotation(dt);
+	updateOrbit(dt);
 
 	reloadMatrices();
 
@@ -106,7 +107,16 @@ void ModuleCamera::updateRotation(float dt)
 
 	fPoint mouseMotion = App->input->GetMouseMotion();
 	if (mouseMotion.x > 2.0f) yaw(mouseMotion.x, dt);
-	if (mouseMotion.y > 2.0f) pitch(mouseMotion.x, dt);
+	if (mouseMotion.y > 2.0f) pitch(mouseMotion.y, dt);
+}
+
+void ModuleCamera::updateOrbit(float dt)
+{
+	if (!navigationMode == ORBIT) return;
+
+	fPoint mouseMotion = App->input->GetMouseMotion();
+	if (mouseMotion.x > 2.0f && App->input->GetKey(SDL_SCANCODE_LALT)) yaw(mouseMotion.x, dt);
+	if (mouseMotion.y > 2.0f && App->input->GetKey(SDL_SCANCODE_LALT)) pitch(mouseMotion.y, dt);
 }
 
 void ModuleCamera::updateNavModes()
@@ -197,8 +207,6 @@ void ModuleCamera::yaw(float angle, float dt)
 
 void ModuleCamera::orbitX(float angle, float dt)
 {
-	if (navigationMode != ORBIT) return;
-
 	const float newAngle = (dt + 0.005f) * getCamSpeed() * (angle*-1);
 	float3x3 rotation_matrix = float3x3::RotateY(newAngle);
 	frustum.pos = rotation_matrix * frustum.pos;
@@ -209,8 +217,6 @@ void ModuleCamera::orbitX(float angle, float dt)
 
 void ModuleCamera::orbitY(float angle, float dt)
 {
-	if (navigationMode != ORBIT) return;
-
 	float adjustment = (dt + 0.005f) * getCamSpeed() * (angle*-1);
 	float newAngle = math::Abs(adjustment + asinf(frustum.front.y / frustum.front.Length()));
 	if (newAngle >= math::pi / 2) return;
@@ -220,5 +226,4 @@ void ModuleCamera::orbitY(float angle, float dt)
 	frustum.pos = rotationMatrix * frustum.pos;
 
 	LookAt(float3::zero);
-
 }
