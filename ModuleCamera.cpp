@@ -119,6 +119,11 @@ void ModuleCamera::updateOrbit(float dt)
 	if (mouseMotion.y > 2.0f && App->input->GetKey(SDL_SCANCODE_LALT)) pitch(mouseMotion.y, dt);
 }
 
+void ModuleCamera::updateFocus(float dt)
+{
+	//TODO: This thing
+}
+
 void ModuleCamera::updateNavModes()
 {
 	isFastMode = App->input->GetKey(SDL_SCANCODE_LSHIFT);

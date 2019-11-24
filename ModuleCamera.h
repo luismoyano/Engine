@@ -38,6 +38,7 @@ public:
 	void updatePosition(float);
 	void updateRotation(float);
 	void updateOrbit(float);
+	void updateFocus(float);
 	void updateNavModes();
 	void LookAt(float3);
 
