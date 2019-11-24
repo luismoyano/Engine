@@ -88,15 +88,11 @@ void ModuleCamera::updatePosition(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_D)) moveRight(dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_E))
-	{
-		//Move forward
-	}
+	if (App->input->GetKey(SDL_SCANCODE_E)) moveForward(dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_Q))
-	{
-		//Move backwards
-	}
+	if (App->input->GetKey(SDL_SCANCODE_Q)) moveBackwards(dt);
+
+	reloadMatrices();
 }
 
 void ModuleCamera::LookAt(float3 target, float3 eye, float3 up)
@@ -169,4 +165,16 @@ void ModuleCamera::moveRight(float dt)
 {
 	LOG("Move Right");
 	frustum.pos += frustum.WorldRight().ScaledToLength(dt * CAM_SPEED);
+}
+
+void ModuleCamera::moveForward(float dt)
+{
+	LOG("Move Forward");
+	frustum.pos += frustum.front.ScaledToLength(dt * CAM_SPEED);
+}
+
+void ModuleCamera::moveBackwards(float dt)
+{
+	LOG("Move Backwards");
+	frustum.pos -= frustum.front.ScaledToLength(dt * CAM_SPEED);
 }

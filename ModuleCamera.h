@@ -45,5 +45,7 @@ private:
 	void moveDown(float);
 	void moveLeft(float);
 	void moveRight(float);
+	void moveForward(float);
+	void moveBackwards(float);
 };
 
