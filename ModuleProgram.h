@@ -1,5 +1,7 @@
 #pragma once
 #include "Module.h"
+#include <GL/glew.h>
+
 class ModuleProgram :
 	public Module
 {
@@ -15,6 +17,11 @@ public:
 	bool CleanUp();
 	const char* loadShader(const char*);
 	
-	unsigned int program;
+	GLuint basicProgram;
+	GLuint primitiveProgram;
+
+private:
+
+	void initProgram(GLuint&, const char*, const char*);
 };
 

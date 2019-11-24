@@ -378,10 +378,16 @@
     <None Include="mathlib\Math\Matrix.inl">
       <Filter>mathlib</Filter>
     </None>
-    <None Include="Game\shaders\fragment_basic.shader">
+    <None Include="Game\shaders\basic_fragment.shader">
       <Filter>shaders</Filter>
     </None>
-    <None Include="Game\shaders\vertex_basic.shader">
+    <None Include="Game\shaders\basic_vertex.shader">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="Game\shaders\primitive_fragment.shader">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="Game\shaders\primitive_vertex.shader">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

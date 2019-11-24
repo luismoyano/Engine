@@ -16,6 +16,7 @@ public:
 	~ModuleRender();
 
 	bool Init();
+	bool Start();
 	update_status PreUpdate(float) override;
 	update_status Update(float) override;
 	update_status PostUpdate(float) override;
@@ -26,4 +27,6 @@ public:
 
 private:
 	GLuint vertexBufferObject;
+
+	void renderGrid();
 };

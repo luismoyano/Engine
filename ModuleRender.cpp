@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "ModuleProgram.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include <GL/glew.h>
 
@@ -52,6 +54,12 @@ bool ModuleRender::Init()
 	return true;
 }
 
+bool ModuleRender::Start()
+{
+	renderGrid();
+	return true;
+}
+
 update_status ModuleRender::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -61,18 +69,7 @@ update_status ModuleRender::PreUpdate(float dt)
 // Called every draw update
 update_status ModuleRender::Update(float dt)
 {
-	glLineWidth(1.0f);
-	float d = 200.0f;
-	glBegin(GL_LINES);
-	for (float i = -d; i <= d; i += 1.0f)
-	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-	glEnd();
-
+	renderGrid();
 	return UPDATE_CONTINUE;
 }
 
@@ -96,5 +93,34 @@ bool ModuleRender::CleanUp()
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
 	glViewport(0, 0, width, height);
+}
+
+void ModuleRender::renderGrid()
+{
+	glUseProgram(App->program->primitiveProgram);
+
+	// CREATES MODEL MATRIX
+	float4x4 model = float4x4::FromTRS(
+		float3(0.0f, 0.0f, 0.0f),
+		float3x3::identity,
+		float3(1.0f, 1.0f, 1.0f)
+	);
+	glUniformMatrix4fv( glGetUniformLocation(App->program->primitiveProgram, "model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "view"), 1, GL_TRUE, &App->camera->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->primitiveProgram, "proj"), 1, GL_TRUE, &App->camera->projectionMatrix[0][0]);
+
+	glLineWidth(1.0f);
+	float d = 200.0f;
+	glBegin(GL_LINES);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
 }
 

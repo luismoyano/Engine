@@ -5,8 +5,6 @@
 #include <fstream>
 
 
-
-
 ModuleProgram::ModuleProgram()
 {
 }
@@ -24,26 +22,8 @@ bool ModuleProgram::Init()
 
 bool ModuleProgram::Start()
 {
-	const char *vertexShader = loadShader("shaders/vertex_basic.shader");
-	const char *fragmentShader = loadShader("shaders/fragment_basic.shader");
-
-
-	unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &vertexShader, nullptr);
-	glCompileShader(vertex);
-
-	unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &fragmentShader, nullptr);
-	glCompileShader(fragment);
-
-	program = glCreateProgram();
-	glAttachShader(program, vertex);
-	glAttachShader(program, fragment);
-	glLinkProgram(program);
-
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
-
+	initProgram(basicProgram, "shaders/basic_vertex.shader", "shaders/basic_fragment.shader");
+	//initProgram(primitiveProgram, "shaders/primitive_vertex.shader", "shaders/primitive_fragment.shader");
 	return true;
 }
 
@@ -66,7 +46,7 @@ update_status ModuleProgram::PostUpdate(float dt)
 
 bool ModuleProgram::CleanUp()
 {
-	glDeleteProgram(program);
+	glDeleteProgram(basicProgram);
 	return true;
 }
 
@@ -93,4 +73,26 @@ const char* ModuleProgram::loadShader(const char* path)
 	}
 
 	return result;
+}
+
+void ModuleProgram::initProgram(GLuint &program, const char* vertexShaderPath, const char* fragmentShaderPath)
+{
+	const char *vertexShader = loadShader(vertexShaderPath);
+	const char *fragmentShader = loadShader(fragmentShaderPath);
+
+	GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertex, 1, &vertexShader, nullptr);
+	glCompileShader(vertex);
+
+	GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragment, 1, &fragmentShader, nullptr);
+	glCompileShader(fragment);
+
+	program = glCreateProgram();
+	glAttachShader(program, vertex);
+	glAttachShader(program, fragment);
+	glLinkProgram(program);
+
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
 }

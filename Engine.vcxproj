@@ -212,8 +212,10 @@
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Game\shaders\fragment_basic.shader" />
-    <None Include="Game\shaders\vertex_basic.shader" />
+    <None Include="Game\shaders\basic_fragment.shader" />
+    <None Include="Game\shaders\basic_vertex.shader" />
+    <None Include="Game\shaders\primitive_fragment.shader" />
+    <None Include="Game\shaders\primitive_vertex.shader" />
     <None Include="mathlib\Geometry\KDTree.inl" />
     <None Include="mathlib\Geometry\QuadTree.inl" />
     <None Include="mathlib\Geometry\TriangleMesh_IntersectRay_AVX.inl" />

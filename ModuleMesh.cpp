@@ -37,12 +37,12 @@ bool ModuleMesh::Start()
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, App->textures->texture);
-	glUniform1i(glGetUniformLocation(App->program->program, "texture0"), 0);
+	glUniform1i(glGetUniformLocation(App->program->basicProgram, "texture0"), 0);
 	
-	glUseProgram(App->program->program);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "model"), 1, GL_TRUE, &modelMatrix[0][0]);    
-	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "view"), 1, GL_TRUE, &App->camera->viewMatrix[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->program, "proj"), 1, GL_TRUE, &App->camera->projectionMatrix[0][0]);
+	glUseProgram(App->program->basicProgram);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->basicProgram, "model"), 1, GL_TRUE, &modelMatrix[0][0]);    
+	glUniformMatrix4fv(glGetUniformLocation(App->program->basicProgram, "view"), 1, GL_TRUE, &App->camera->viewMatrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->basicProgram, "proj"), 1, GL_TRUE, &App->camera->projectionMatrix[0][0]);
 
 	glGenBuffers(1, &vertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);

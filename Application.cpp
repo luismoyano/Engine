@@ -37,7 +37,6 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
-	frameStartTimeStamp = SDL_GetTicks();
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
@@ -55,6 +54,7 @@ bool Application::Init()
 
 update_status Application::Update()
 {
+	frameStartTimeStamp = SDL_GetTicks();
 	update_status ret = UPDATE_CONTINUE;
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
