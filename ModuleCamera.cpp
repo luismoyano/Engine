@@ -41,6 +41,8 @@ update_status ModuleCamera::PreUpdate(float dt)
 	updatePosition(dt);
 	updateRotation(dt);
 
+	reloadMatrices();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -96,8 +98,6 @@ void ModuleCamera::updatePosition(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_E) || App->input->getWheelSpeed() > 0.0f) moveForward(dt, App->input->getWheelSpeed());
 
 	if (App->input->GetKey(SDL_SCANCODE_Q) || App->input->getWheelSpeed() < 0.0f) moveBackwards(dt, App->input->getWheelSpeed());
-	
-	reloadMatrices();
 }
 
 void ModuleCamera::updateRotation(float dt)
@@ -172,17 +172,17 @@ void ModuleCamera::moveBackwards(float dt, float extraSpeed)
 
 void ModuleCamera::pitch(float angle, float dt)
 {
-	float newAngle = abs((dt + 0.005f) * getCamSpeed() * (angle*-1) + asinf(frustum.front.y / frustum.front.Length()));
+	float adjustment = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	float newAngle = math::Abs(adjustment + asinf(frustum.front.y / frustum.front.Length()));
 	if (newAngle >= math::pi / 2) return;
 	
 	float3x3 rotationMatrix = float3x3::identity;
 	
-	rotationMatrix.SetRotatePart(frustum.WorldRight(), newAngle);
+	rotationMatrix.SetRotatePart(frustum.WorldRight(), adjustment);
 	frustum.up = rotationMatrix * frustum.up;
 	frustum.front = rotationMatrix * frustum.front;
 
 	LookAt(float3::zero);
-	
 }
 
 void ModuleCamera::yaw(float angle, float dt)
@@ -193,4 +193,32 @@ void ModuleCamera::yaw(float angle, float dt)
 	frustum.front = rotationMatrix * frustum.front;
 
 	LookAt(float3::zero);
+}
+
+void ModuleCamera::orbitX(float angle, float dt)
+{
+	if (navigationMode != ORBIT) return;
+
+	const float newAngle = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	float3x3 rotation_matrix = float3x3::RotateY(newAngle);
+	frustum.pos = rotation_matrix * frustum.pos;
+
+	LookAt(float3::zero);
+
+}
+
+void ModuleCamera::orbitY(float angle, float dt)
+{
+	if (navigationMode != ORBIT) return;
+
+	float adjustment = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	float newAngle = math::Abs(adjustment + asinf(frustum.front.y / frustum.front.Length()));
+	if (newAngle >= math::pi / 2) return;
+
+	float3x3 rotationMatrix = float3x3::identity;
+	rotationMatrix.SetRotatePart(frustum.WorldRight(), adjustment);
+	frustum.pos = rotationMatrix * frustum.pos;
+
+	LookAt(float3::zero);
+
 }
