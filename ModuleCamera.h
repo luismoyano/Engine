@@ -4,7 +4,9 @@
 #include "Globals.h"
 #include <GL/glew.h>
 
-#define CAM_SPEED 2.5f
+#define CAM_TRANSLATION_SPEED 2.5f
+#define CAM_ROTATION_SPEED 0.1745f //10 deg
+
 
 enum MovementMode
 {
@@ -63,8 +65,8 @@ private:
 	void moveForward(float, float speed = 0.0f);
 	void moveBackwards(float, float speed = 0.0f);
 
-	void pitch(float, float);
-	void yaw(float, float);
+	void pitch(bool, float);
+	void yaw(bool, float);
 	void orbitX(float, float);
 	void orbitY(float, float);
 };
