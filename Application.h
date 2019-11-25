@@ -40,7 +40,8 @@ public:
 private:
 
 	std::list<Module*> modules;
-	float frameStartTimeStamp;
+	float thisFrameTimestamp;
+	float lastFrameTimeStamp;
 
 	float getDeltaTimeInSecs();
 };

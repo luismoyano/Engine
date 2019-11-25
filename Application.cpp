@@ -37,6 +37,8 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	thisFrameTimestamp = 0;
+	lastFrameTimeStamp = 0;
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
@@ -54,18 +56,20 @@ bool Application::Init()
 
 update_status Application::Update()
 {
-	frameStartTimeStamp = SDL_GetTicks();
+	float deltaTime = getDeltaTimeInSecs();
+	thisFrameTimestamp = SDL_GetTicks();
 	update_status ret = UPDATE_CONTINUE;
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PreUpdate(getDeltaTimeInSecs());
+		ret = (*it)->PreUpdate(deltaTime);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->Update(getDeltaTimeInSecs());
+		ret = (*it)->Update(deltaTime);
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PostUpdate(getDeltaTimeInSecs());
+		ret = (*it)->PostUpdate(deltaTime);
 
+	lastFrameTimeStamp = SDL_GetTicks();
 	return ret;
 }
 
@@ -87,5 +91,5 @@ void Application::requestBrowser(const char * url)
 
 float Application::getDeltaTimeInSecs()
 {
-	return (SDL_GetTicks() - frameStartTimeStamp) / 1000.0f;
+	return (lastFrameTimeStamp - thisFrameTimestamp) / 1000.0f;
 }

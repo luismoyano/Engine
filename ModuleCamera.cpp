@@ -154,40 +154,40 @@ float ModuleCamera::getCamSpeed()
 void ModuleCamera::moveUp(float dt)
 {
 	float3 newPosition = frustum.pos;
-	newPosition.y = newPosition.y + ((0.05f + dt) * getCamSpeed());
+	newPosition.y = newPosition.y + (dt * getCamSpeed());
 	frustum.pos = newPosition;
 }
 
 void ModuleCamera::moveDown(float dt)
 {
 	float3 newPosition = frustum.pos;
-	newPosition.y = newPosition.y - ((0.05f + dt) * getCamSpeed());
+	newPosition.y = newPosition.y - (dt * getCamSpeed());
 	frustum.pos = newPosition;
 }
 
 void ModuleCamera::moveLeft(float dt)
 {
-	frustum.pos -= frustum.WorldRight().ScaledToLength((0.05f + dt) * getCamSpeed());
+	frustum.pos -= frustum.WorldRight().ScaledToLength(dt * getCamSpeed());
 }
 
 void ModuleCamera::moveRight(float dt)
 {
-	frustum.pos += frustum.WorldRight().ScaledToLength((0.05f + dt) * getCamSpeed());
+	frustum.pos += frustum.WorldRight().ScaledToLength(dt * getCamSpeed());
 }
 
 void ModuleCamera::moveForward(float dt, float extraSpeed)
 {
-	frustum.pos += frustum.front.ScaledToLength((0.05f + dt) * getCamSpeed() * ((extraSpeed > 0) ? math::Abs(extraSpeed) : 1.0f));
+	frustum.pos += frustum.front.ScaledToLength(dt * getCamSpeed() * ((extraSpeed > 0) ? math::Abs(extraSpeed) : 1.0f));
 }
 
 void ModuleCamera::moveBackwards(float dt, float extraSpeed)
 {
-	frustum.pos -= frustum.front.ScaledToLength((0.05f + dt) * getCamSpeed() * ((extraSpeed < 0)? math::Abs(extraSpeed) : 1.0f));
+	frustum.pos -= frustum.front.ScaledToLength(dt * getCamSpeed() * ((extraSpeed < 0)? math::Abs(extraSpeed) : 1.0f));
 }
 
 void ModuleCamera::pitch(float angle, float dt)
 {
-	float adjustment = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	float adjustment = dt * getCamSpeed() * (angle*-1);
 	float newAngle = math::Abs(adjustment + asinf(frustum.front.y / frustum.front.Length()));
 	if (newAngle >= math::pi / 2) return;
 	
@@ -202,7 +202,7 @@ void ModuleCamera::pitch(float angle, float dt)
 
 void ModuleCamera::yaw(float angle, float dt)
 {
-	const float newAngle = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	const float newAngle = dt * getCamSpeed() * (angle*-1);
 	float3x3 rotationMatrix = float3x3::RotateY(newAngle);
 	frustum.up = rotationMatrix * frustum.up;
 	frustum.front = rotationMatrix * frustum.front;
@@ -212,7 +212,7 @@ void ModuleCamera::yaw(float angle, float dt)
 
 void ModuleCamera::orbitX(float angle, float dt)
 {
-	const float newAngle = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	const float newAngle = dt * getCamSpeed() * (angle*-1);
 	float3x3 rotation_matrix = float3x3::RotateY(newAngle);
 	frustum.pos = rotation_matrix * frustum.pos;
 
@@ -222,7 +222,7 @@ void ModuleCamera::orbitX(float angle, float dt)
 
 void ModuleCamera::orbitY(float angle, float dt)
 {
-	float adjustment = (dt + 0.005f) * getCamSpeed() * (angle*-1);
+	float adjustment = dt * getCamSpeed() * (angle*-1);
 	float newAngle = math::Abs(adjustment + asinf(frustum.front.y / frustum.front.Length()));
 	if (newAngle >= math::pi / 2) return;
 
